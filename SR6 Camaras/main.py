@@ -352,13 +352,15 @@ while(veri):
             r.write("Textures3D.bmp")
             
         elif (op == 7):
-            r.glCreateWindow(1024,1024)  
+            r = Render(1024, 1024) 
             t = Texture('./helmet.bmp')
             r.texture = t
             cube = Obj('./helmet_clean.obj')
             
+            r.lookAt(V3(0, 0, 1), V3(0, 0, 0), V3(0, 1, 0))
+            
             # ------------ Dutch Angle ------------------
-            s = (30, 30, 60)
+            s = (30, 30, 30)
             tf = (512, 500, 0)
             rot = (0, 0.1, 0.35)
 
@@ -371,18 +373,22 @@ while(veri):
             t = Texture('./helmet.bmp')
             r.texture = t
             
-            s = (30,30,30)
+            r.lookAt(V3(0, 5, 10), V3(0, 0, 0), V3(0, 1, 0))
+
             tf = (512, 500, 0)
-            rot = (2, 0, 0)
+            s = (30, 30, 30)
+            rot = (0, 0, 0)
 
             load_model(r, t,'./helmet_clean.obj', tf, s, rot)
             r.write("High_Angle.bmp")
 
-            # ------------ Medium Angle ------------------
+            # # ------------ Medium Angle ------------------
             
             r = Render(1024,1024)
             t = Texture('./helmet.bmp')
             r.texture = t
+            
+            r.lookAt(V3(0, 0, 1), V3(0, 0, 0), V3(0, 1, 0))
             
             s = (30,30,30)
             tf = (512, 500, 1)
@@ -391,11 +397,13 @@ while(veri):
             load_model(r, t,'./helmet_clean.obj', tf, s, rot)
             r.write("Medium_Angle.bmp")
 
-            # ------------ Low Angle ------------------
+            # # ------------ Low Angle ------------------
             
             r = Render(1024,1024)
             t = Texture('./helmet.bmp')
             r.texture = t
+            
+            r.lookAt(V3(0, 0, 1), V3(0, 0, 0), V3(0, 1, 0))
             
             s = (30,30,30)
             tf = (512, 500, 0)

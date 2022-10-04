@@ -33,6 +33,7 @@ class Render(object):
         self.background_Color = BLACK
         self.texture = None
         self.Model = None
+        self.View = None
         self.glViewPort(0,0, self.width, self.height)
         self.glClear()
         
@@ -85,6 +86,29 @@ class Render(object):
         tempModel = matrix_multiplication4(rotation_matrix, scale_matrix)
         self.Model = matrix_multiplication4(translation_matrix, tempModel)
     
+    def loadViewMatrix(self, x, y, z, center):
+        Mi = [
+            [x.x, x.y, x.z, 0],
+            [y.x, y.y, y.z, 0],
+            [z.x, z.y, z.z, 0],
+            [  0,   0,   0, 1]
+        ]
+        
+        Op = [
+            [1, 0, 0, -center.x],
+            [0, 1, 0, -center.y],
+            [0, 0, 1, -center.z],
+            [0, 0, 0,         1]
+        ]
+        
+        self.View = matrix_multiplication4(Mi, Op)
+    
+    def lookAt(self, eye, center, up):
+        z = (eye - center).norm() 
+        x = (up * z).norm()
+        y = (z * x).norm()
+        
+        self.loadViewMatrix(x, y, z, center)
 
     def write(self, filename):
         f = open(filename, 'bw')
@@ -299,4 +323,3 @@ class Render(object):
 #Iniciar objeto interno
 def glinit():
     return Render(1024, 1024)
-

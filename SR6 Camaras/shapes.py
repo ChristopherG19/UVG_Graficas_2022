@@ -148,9 +148,10 @@ def transform2(r, vertex):
     ]
     
     temp_Transformed_vertex = matrix_multiplication4(r.Model, aumented_vertex)
+    temp_Transformed_vertex2 = matrix_multiplication4(r.View, temp_Transformed_vertex)
 
     transformed_vertex = []
-    for i in temp_Transformed_vertex:
+    for i in temp_Transformed_vertex2:
         transformed_vertex.append(i[0])
 
     return V3(
@@ -162,7 +163,7 @@ def transform2(r, vertex):
 def load_model(r, t, filename, tf=(0, 0, 0), s=(1, 1, 1), rotate=(0, 0, 0)):
     r.loadModelMatrix(tf, s, rotate)
     cube = Obj(filename)
-    for face in cube.caras:         
+    for face in cube.caras:       
         if(len(face) == 4):
             f1 = face[0][0] - 1
             f2 = face[1][0] - 1
@@ -318,19 +319,16 @@ def triangule(r, vertices, t=None, tvertices=()):
             #A:w, B:u, C:v
             z = A.z * w + B.z * u + C.z * v
 
-            try:
-                if (r.zBuffer[x][y] < z): 
-                    r.zBuffer[x][y] = z
+            if (x < len(r.zBuffer) and y < len(r.zBuffer) and r.zBuffer[x][y] < z): 
+                r.zBuffer[x][y] = z
+                
+                if (r.texture):
+                    tx = tA.x * w + tB.x * u + tC.x * v
+                    ty = tA.y * w + tB.y * u + tC.y * v
                     
-                    if (r.texture):
-                        tx = tA.x * w + tB.x * u + tC.x * v
-                        ty = tA.y * w + tB.y * u + tC.y * v
-                        
-                        r.current_color = t.get_color_with_intensity(tx, ty, i)
-                    
-                    r.glpoint(y, x) 
-                     
-            except Exception as ex:
-                print(x, y, ex)     
+                    r.current_color = t.get_color_with_intensity(tx, ty, i)
+                
+                r.glpoint(y, x) 
+  
                 
 
