@@ -102,6 +102,28 @@ class Render(object):
         ]
         
         self.View = matrix_multiplication4(Mi, Op)
+        
+    def loadProjectionMatrix(self, eye, center):
+        coeff = -1/(eye.length()-center.length())
+        self.Projection = [
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, coeff, 1]
+        ]
+        
+    def loadViewportMatrix(self):
+        x = 0
+        y = 0
+        w = self.width/2
+        h = self.height/2
+        
+        self.ViewPort = [
+            [w, 0, 0, x + w],
+            [0, h, 0, y + h],
+            [0, 0, 128, 128],
+            [0, 0, 0, 1]
+        ]    
     
     def lookAt(self, eye, center, up):
         z = (eye - center).norm() 
@@ -109,6 +131,8 @@ class Render(object):
         y = (z * x).norm()
         
         self.loadViewMatrix(x, y, z, center)
+        self.loadProjectionMatrix(eye, center)
+        self.loadViewportMatrix()
 
     def write(self, filename):
         f = open(filename, 'bw')

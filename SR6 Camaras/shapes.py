@@ -149,6 +149,8 @@ def transform2(r, vertex):
     
     temp_Transformed_vertex = matrix_multiplication4(r.Model, aumented_vertex)
     temp_Transformed_vertex2 = matrix_multiplication4(r.View, temp_Transformed_vertex)
+    temp_Transformed_vertex3 = matrix_multiplication4(r.Projection, temp_Transformed_vertex2)
+    temp_Transformed_vertex4 = matrix_multiplication4(r.ViewPort, temp_Transformed_vertex3)
 
     transformed_vertex = []
     for i in temp_Transformed_vertex2:
@@ -319,7 +321,11 @@ def triangule(r, vertices, t=None, tvertices=()):
             #A:w, B:u, C:v
             z = A.z * w + B.z * u + C.z * v
 
-            if (x < len(r.zBuffer) and y < len(r.zBuffer) and r.zBuffer[x][y] < z): 
+            if (x >= 0 and
+                y >= 0 and
+                x < len(r.zBuffer) and 
+                y < len(r.zBuffer) and 
+                r.zBuffer[x][y] < z): 
                 r.zBuffer[x][y] = z
                 
                 if (r.texture):

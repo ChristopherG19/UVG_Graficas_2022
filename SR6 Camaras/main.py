@@ -5,6 +5,7 @@
     2do. ciclo 2022
 '''
 
+from math import pi
 from objects3d import Obj
 from gl import *
 from colors import *
@@ -29,6 +30,7 @@ while(veri):
         print('5) 3D Flat Shading')
         print('6) 3D Texturas')
         print('7) Camaras')
+        print('8) Pruebas')
         print('20) Salir\n')
                 
         op = int(input('Opcion: '))
@@ -407,11 +409,25 @@ while(veri):
             
             s = (30,30,30)
             tf = (512, 500, 0)
-            rot = (-0.6, 0, 0)
+            rot = (-0.8, 0, 0)
 
             load_model(r, t,'./helmet_clean.obj', tf, s, rot)
             r.write("Low_Angle.bmp")
     
+        elif (op == 8):
+            r = Render(1024, 1024) 
+            t = Texture('./helmet.bmp')
+            r.texture = t
+            cube = Obj('./helmet_clean.obj')
+            r.lookAt(V3(0, 0, 5), V3(0, 0, 0), V3(0, 1, 0))
+            
+            tf = (0, 0, 0)
+            s = (1, 1, 1)
+            rot = (0, pi/5, 0)
+
+            load_model(r, t,'./helmet_clean.obj', tf, s, rot)
+            r.write("Pruebas.bmp")
+        
         elif (op == 20):
             veri = False
         
