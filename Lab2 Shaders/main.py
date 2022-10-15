@@ -30,7 +30,7 @@ while(veri):
         print('5) 3D Flat Shading')
         print('6) 3D Texturas')
         print('7) Camaras')
-        print('8) Pruebas')
+        print('8) Shaders (Planeta)')
         print('20) Salir\n')
                 
         op = int(input('Opcion: '))
